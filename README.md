@@ -6,33 +6,31 @@ Time: July 2017
 This is a project about using Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
 ![png](localization-map.png)
 
-#### Submission
-All you will submit is your completed version of `particle_filter.cpp`, which is located in the `src` directory. You should probably do a `git pull` before submitting to verify that your project passes the most up-to-date version of the grading code (there are some parameters in `src/main.cpp` which govern the requirements on accuracy and run time.)
-
-## Project Introduction
+### Project Introduction
 Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
 In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. 
 
-## Running the Code
+### Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
 This repository includes two files that can be used to set up and intall uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO.
 
 Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
-
+```
 mkdir build
 cd build
 cmake ..
 make
 ./particle_filter
+```
 
 Note that the programs that need to be written to accomplish the project are src/particle_filter.cpp, and particle_filter.h
 
 The program main.cpp has already been filled out, but feel free to modify it.
 
 Here is the main protcol that main.cpp uses for uWebSocketIO in communicating with the simulator.
-
+```
 INPUT: values provided by the simulator to the c++ program
 
 // sense noisy position data from the simulator
@@ -77,6 +75,7 @@ OUTPUT: values provided by the c++ program to the simulator
 ["best_particle_sense_x"] <= list of sensed x positions
 
 ["best_particle_sense_y"] <= list of sensed y positions
+```
 
 
 Your job is to build out the methods in `particle_filter.cpp` until the simulator output says:
