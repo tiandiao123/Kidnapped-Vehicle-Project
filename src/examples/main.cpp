@@ -13,6 +13,7 @@
 #include "map.h"
 #include "help_functions.h"
 
+#include "bayesianFilter.h"
 using namespace std;
 
 int main() {
@@ -57,57 +58,34 @@ int main() {
 			                     in_file_name_obs, 
 			                     measurement_pack_list);
 
-	/*****************************************************************************
-		 *  Coding quiz 1: just print out map infos and measurement package:     *
-    ******************************************************************************/
+	/*******************************************************************************
+	 *  start 1d_bayesian filter												   *
+	 *******************************************************************************/
 
-	////////////
-	//Results://	
-	////////////
-	
-	std::cout <<"..................................................."<< std::endl;
-	std::cout <<"..................................................."<< std::endl;
-	std::cout <<"............----> Coding quiz 1  <----............."<< std::endl;
-	std::cout <<"..................................................."<< std::endl;
-	std::cout <<"..................................................."<< std::endl;
-       
-    //print out map:
-	std::cout << "Print out the map landmarks:" << endl;
-	
+	//create instance of 1d_bayesian localization filter:
+	bayesianFilter localization_1d_bayesian;
 
-	for(int i=0;i<map_1d.landmark_list.size();i++){
-		std::cout << "ID: "<< map_1d.landmark_list[i].id_i << "\t"
-				  << "value in x: " << map_1d.landmark_list[i].x_f << std::endl;
+	//define number of time steps:
+	size_t T = measurement_pack_list.size();
+
+	//cycle:
+	for (size_t t = 0; t < T; ++t){
+
+		//Call 1d_bayesian filter:
+		localization_1d_bayesian.process_measurement(measurement_pack_list[t],
+				                                     map_1d,
+				                                     helper);
 	}
-	std::cout << "..................................................." << std::endl;
-	std::cout << "..................................................." << std::endl;
 
-	//print out the controls and the observations:
-	std::cout << "Print out the measurement packages:" << endl;
+	/*******************************************************************************
+	 *  print/compare results:												   *
+	 ********************************************************************************/
+	//define file name of gt data:
+	sprintf(in_file_name_gt, "data/example%s/gt_example%s.txt",example_string.c_str(),example_string.c_str() );
 
-		for(int i=0;i<measurement_pack_list.size();i++){
+	///compare gt data with results:
+	helper.compare_data(in_file_name_gt, localization_1d_bayesian.bel_x);
+	
 
-			std::cout << "Step "<< i << " includes the move " 
-					  << measurement_pack_list[i].control_s_.delta_x_f 
-					  <<  "[m] in driving direction " << std::endl;
-
-			//run over observations:
-			if (measurement_pack_list[i].observation_s_.distance_f.size()<1){
-
-				std::cout<< "	No observations in step "<< i << std::endl;
-			}
-			else{
-				std::cout<< "	Number of Observations in current step: "
-						 << measurement_pack_list[i].observation_s_.distance_f.size() 
-						 << std::endl;
-				
-				for(int j=0;j<measurement_pack_list[i].observation_s_.distance_f.size();j++	){
-					std::cout<< "	Distance to a landmark: "
-							 <<  measurement_pack_list[i].observation_s_.distance_f[j]
-							 <<  " m" <<std::endl;
-				}
-			}
-			std::cout << "..................................................."<< std::endl;
-		}
 	return 0;
 }

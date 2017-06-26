@@ -49,12 +49,12 @@ public:
 		outputVector.resize(inputVector.size());
 
 		//estimate the sum:
-		for (unsigned int i = 0; i < inputVector.size(); ++i) {
+		for (int i = 0; i < inputVector.size(); ++i) {
 			sum += inputVector[i];
 		}
 
 		//normalize with sum:
-		for (unsigned int i = 0; i < inputVector.size(); ++i) {
+		for (int i = 0; i < inputVector.size(); ++i) {
 			outputVector[i] = inputVector[i]/sum ;
 		}
 
@@ -121,7 +121,7 @@ public:
 	//declare single line of measurement file:
 	std::string line;
 
-	int count = 1;
+	int count = 1 ;
 
 	//run over each single line:
 	while(getline(in_file_control, line)){
@@ -216,7 +216,7 @@ public:
 	    std::cout <<"...............----> Results <----................."<< std::endl;
 		std::cout <<"..................................................."<< std::endl;
 
-		for (unsigned int i = 0; i <  result_vec.size(); ++i){
+		for (int i = 0; i <  result_vec.size(); ++i){
 			error_sum+= (gt_vec[i]-result_vec[i])*(gt_vec[i]-result_vec[i]);
 			belief_sum+= result_vec[i] ;
 			std::cout << std::fixed << std::setprecision(5) <<"bel_x="<< i <<":" << "\t"

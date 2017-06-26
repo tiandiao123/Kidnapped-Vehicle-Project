@@ -22,4 +22,3 @@ public:
 };
 
 #endif /* MEASUREMENT_PACKAGE_H_ */
-
