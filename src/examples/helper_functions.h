@@ -121,7 +121,7 @@ public:
 	//declare single line of measurement file:
 	std::string line;
 
-	int count = 1 ;
+	int count = 1;
 
 	//run over each single line:
 	while(getline(in_file_control, line)){

@@ -3,7 +3,8 @@ Project Member: Cuiqing Li
 Time: July 2017
 
 ### Overview
-This repository contains all the code needed to complete the final project for the Localization course in Udacity's Self-Driving Car Nanodegree.
+This is a project about using Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
+![png](localization-map.png)
 
 #### Submission
 All you will submit is your completed version of `particle_filter.cpp`, which is located in the `src` directory. You should probably do a `git pull` before submitting to verify that your project passes the most up-to-date version of the grading code (there are some parameters in `src/main.cpp` which govern the requirements on accuracy and run time.)
