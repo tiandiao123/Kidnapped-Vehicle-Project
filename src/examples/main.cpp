@@ -61,11 +61,53 @@ int main() {
 		 *  Coding quiz 1: just print out map infos and measurement package:     *
     ******************************************************************************/
 
-	/////////////
-    //Add code://	
-    /////////////
-	printf("*************************************************\n");
-	printf("Please print out map and measurement information!\n");	
-	printf("*************************************************\n");
+	////////////
+	//Results://	
+	////////////
+	
+	std::cout <<"..................................................."<< std::endl;
+	std::cout <<"..................................................."<< std::endl;
+	std::cout <<"............----> Coding quiz 1  <----............."<< std::endl;
+	std::cout <<"..................................................."<< std::endl;
+	std::cout <<"..................................................."<< std::endl;
+       
+    //print out map:
+	std::cout << "Print out the map landmarks:" << endl;
+	
+
+	for(int i=0;i<map_1d.landmark_list.size();i++){
+		std::cout << "ID: "<< map_1d.landmark_list[i].id_i << "\t"
+				  << "value in x: " << map_1d.landmark_list[i].x_f << std::endl;
+	}
+	std::cout << "..................................................." << std::endl;
+	std::cout << "..................................................." << std::endl;
+
+	//print out the controls and the observations:
+	std::cout << "Print out the measurement packages:" << endl;
+
+		for(int i=0;i<measurement_pack_list.size();i++){
+
+			std::cout << "Step "<< i << " includes the move " 
+					  << measurement_pack_list[i].control_s_.delta_x_f 
+					  <<  "[m] in driving direction " << std::endl;
+
+			//run over observations:
+			if (measurement_pack_list[i].observation_s_.distance_f.size()<1){
+
+				std::cout<< "	No observations in step "<< i << std::endl;
+			}
+			else{
+				std::cout<< "	Number of Observations in current step: "
+						 << measurement_pack_list[i].observation_s_.distance_f.size() 
+						 << std::endl;
+				
+				for(int j=0;j<measurement_pack_list[i].observation_s_.distance_f.size();j++	){
+					std::cout<< "	Distance to a landmark: "
+							 <<  measurement_pack_list[i].observation_s_.distance_f[j]
+							 <<  " m" <<std::endl;
+				}
+			}
+			std::cout << "..................................................."<< std::endl;
+		}
 	return 0;
 }
