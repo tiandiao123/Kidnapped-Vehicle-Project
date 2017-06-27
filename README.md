@@ -6,6 +6,9 @@ Time: July 2017
 This is a project about using Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
 ![png](localization-map.png)
 
+I still need to use Bayes Inference to caluculte the posterior of next position of the car, here is formula about how to handle the problem:
+![png](bayes.png)
+
 ### Project Introduction
 Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 

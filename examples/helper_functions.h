@@ -139,7 +139,7 @@ public:
 
 
 		//set control information:
-		meas_package.control_s_.delta_x_f = delta_x_f ;
+		meas_package.control_s_.delta_x_f = delta_x_f;
 
 		//read observations for each control information:
 		char str_obs[1024];
