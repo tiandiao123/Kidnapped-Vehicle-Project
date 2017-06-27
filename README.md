@@ -2,17 +2,10 @@ Project Member: Cuiqing Li
 
 Time: July 2017
 
-### Overview
-This is a project about using Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
-![png](localization-map.png)
-
-I still need to use Bayes Inference to caluculte the posterior of next position of the car, here is formula about how to handle the problem:
-![png](bayes.PNG)
-
 ### Project Introduction
 Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
-In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. 
+In this project I will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. 
 
 ### Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
@@ -87,7 +80,16 @@ Your job is to build out the methods in `particle_filter.cpp` until the simulato
 Success! Your particle filter passed!
 ```
 
-# Implementing the Particle Filter
+### Localization Overview
+This is a project about using Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
+
+![png](localization-map.png)
+
+I still need to use Bayes Inference to caluculte the posterior of next position of the car, here is formula about how to handle the problem:
+
+![png](bayes.PNG)
+
+### Implementing the Particle Filter
 The directory structure of this repository is as follows:
 
 ```
@@ -115,7 +117,7 @@ The only file you should modify is `particle_filter.cpp` in the `src` directory.
 
 If you are interested, take a look at `src/main.cpp` as well. This file contains the code that will actually be running your particle filter and calling the associated methods.
 
-## Inputs to the Particle Filter
+### Inputs to the Particle Filter
 You can find the inputs to the particle filter in the `data` directory. 
 
 #### The Map*
