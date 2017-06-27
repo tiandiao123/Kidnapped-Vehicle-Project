@@ -49,12 +49,12 @@ public:
 		outputVector.resize(inputVector.size());
 
 		//estimate the sum:
-		for (int i = 0; i < inputVector.size(); ++i) {
+		for (unsigned int i = 0; i < inputVector.size(); ++i) {
 			sum += inputVector[i];
 		}
 
 		//normalize with sum:
-		for (int i = 0; i < inputVector.size(); ++i) {
+		for (unsigned int i = 0; i < inputVector.size(); ++i) {
 			outputVector[i] = inputVector[i]/sum ;
 		}
 
@@ -139,7 +139,7 @@ public:
 
 
 		//set control information:
-		meas_package.control_s_.delta_x_f = delta_x_f;
+		meas_package.control_s_.delta_x_f = delta_x_f ;
 
 		//read observations for each control information:
 		char str_obs[1024];
@@ -216,7 +216,7 @@ public:
 	    std::cout <<"...............----> Results <----................."<< std::endl;
 		std::cout <<"..................................................."<< std::endl;
 
-		for (int i = 0; i <  result_vec.size(); ++i){
+		for (unsigned int i = 0; i <  result_vec.size(); ++i){
 			error_sum+= (gt_vec[i]-result_vec[i])*(gt_vec[i]-result_vec[i]);
 			belief_sum+= result_vec[i] ;
 			std::cout << std::fixed << std::setprecision(5) <<"bel_x="<< i <<":" << "\t"
@@ -227,7 +227,7 @@ public:
 		std::cout <<"..................................................."<< std::endl;
 		std::cout << std::fixed << std::setprecision(5)<< "sum bel:"    << "\t" << belief_sum <<std::endl;
 		std::cout <<"..................................................."<< std::endl;
-		std::cout << std::fixed << std::setprecision(5)<< "sqrt error sum:     " << "\t" << sqrt((error_sum)) <<std::endl;
+		std::cout << std::fixed << std::setprecision(5)<< " rse   :     "<< "\t" << sqrt((error_sum)) <<std::endl;
 		std::cout <<"..................................................."<< std::endl;
 		std::cout <<"..................................................."<< std::endl;
 		return true;

@@ -23,7 +23,7 @@ int main() {
 	 *****************************************************************************/
 	
 	//define example: 01, 02, 03, 04
-	string example_string = "01";
+	string example_string = "04";
 
 	//declare map:
 	map map_1d;
@@ -43,14 +43,14 @@ int main() {
 	 *  read map and measurements:											     *
 	 *****************************************************************************/
 	//read map:
-	helper.read_map_data("../data/map_1d.txt", map_1d);
+	helper.read_map_data("data/map_1d.txt", map_1d);
 
 	//define file name of controls:
-	sprintf(in_file_name_ctr, "../data/example%s/control_data.txt", 
+	sprintf(in_file_name_ctr, "data/example%s/control_data.txt", 
 			example_string.c_str());
 
 	//define file name of observations:
-	sprintf(in_file_name_obs, "../data/example%s/observations/", 
+	sprintf(in_file_name_obs, "data/example%s/observations/", 
 			example_string.c_str());
 	
 	//read in data to measurement package list:
@@ -81,7 +81,7 @@ int main() {
 	 *  print/compare results:												   *
 	 ********************************************************************************/
 	//define file name of gt data:
-	sprintf(in_file_name_gt, "../data/example%s/gt_example%s.txt",example_string.c_str(),example_string.c_str() );
+	sprintf(in_file_name_gt, "data/example%s/gt_example%s.txt",example_string.c_str(),example_string.c_str() );
 
 	///compare gt data with results:
 	helper.compare_data(in_file_name_gt, localization_1d_bayesian.bel_x);
