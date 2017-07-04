@@ -9,7 +9,7 @@ In this project I will implement a 2 dimensional particle filter in C++. My part
 
 ### The Algorithms for Filter Particle
 Here is the algorithm for patticle filter in this project:
-![png](paticle-filter-alg.png)
+![png](particle-filter-alg.png)
 
 ### Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
