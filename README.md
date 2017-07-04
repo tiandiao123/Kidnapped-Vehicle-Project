@@ -16,6 +16,15 @@ Here is the general view of the whole algorithm:
 
 ![png](particle-filter.PNG)
 
+### Localization Overview
+This is a project about using Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
+
+![png](localization-map.png)
+
+I still need to use Bayes Inference to caluculte the posterior of next position of the car, here is formula about how to handle the problem:
+
+![png](bayes.PNG)
+
 ### Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
@@ -88,15 +97,6 @@ Your job is to build out the methods in `particle_filter.cpp` until the simulato
 ```
 Success! Your particle filter passed!
 ```
-
-### Localization Overview
-This is a project about using Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
-
-![png](localization-map.png)
-
-I still need to use Bayes Inference to caluculte the posterior of next position of the car, here is formula about how to handle the problem:
-
-![png](bayes.PNG)
 
 ### Implementing the Particle Filter
 The directory structure of this repository is as follows:
