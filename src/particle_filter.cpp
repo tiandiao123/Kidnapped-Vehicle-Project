@@ -32,7 +32,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	normal_distribution<double> dist_psi(theta, std_psi);
 
 	for(int i=0;i<num_particles;i++){
-		weights.push_back(1);
+		weights.push_back(1.0);
 	}
 
 	for(int i=0;i<num_particles;i++){
@@ -59,6 +59,50 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	// NOTE: When adding noise you may find std::normal_distribution and std::default_random_engine useful.
 	//  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
 	//  http://www.cplusplus.com/reference/random/default_random_engine/
+
+
+	double cosval=cos(std_pos[2]);
+    double sinval=sin(std_pos[2]);
+    double ro=std_pos[2];
+    
+    for(int i=0;i<num_particles;i++){
+    	//Particle particle=particles[i];
+    	default_random_engine gen;
+    	
+    	double p_x=particles[i].x;
+    	double p_y=particles[i].y;
+    	double yaw=particle[i].theta;
+    	double px_p=0;
+    	double py_p=0;
+
+    	if (fabs(yaw_rate) > 0.001) {
+            px_p = p_x + v/yaw_rate * ( sin (yaw + yaw_rate*delta_t) - sin(yaw));
+            py_p = p_y + v/yaw_rate * ( cos(yaw) - cos(yaw+yaw_rate*delta_t) );
+        }else {
+            px_p = p_x + v*delta_t*cos(yaw);
+            py_p = p_y + v*delta_t*sin(yaw);
+        }
+        
+        double yaw_p=yaw+yaw_rate*delta_t;
+
+        normal_distribution<double> dist_x(x, std_pos[0]);
+	    normal_distribution<double> dist_y(y, std_pos[1]);
+	    normal_distribution<double> dist_psi(theta, std_pos[2]);
+	    double sample_x, sample_y, sample_psi;
+		sample_x = dist_x(gen);
+		sample_y = dist_y(gen);
+		sample_psi = dist_psi(gen);
+
+		px_p=px_p+sample_x;
+		py_p=py_p+sample_y;
+		yaw_p=yaw_p+sample_psi;
+        
+        particles[i].x=px_p;
+        particles[i].y=py_p;
+        particles[i].theta=yaw_p;
+    }
+
+
 
 }
 
