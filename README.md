@@ -17,7 +17,7 @@ Here is the general view of the whole algorithm:
 ![png](particle-filter.PNG)
 
 ### Localization Overview
-This is a project about using Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
+We also need to use Markov assuption to predict and simulate vehicle movements, and here is a picture displaying how it looks like:
 
 ![png](localization-map.png)
 
