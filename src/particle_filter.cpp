@@ -7,6 +7,7 @@
 #include <sstream>
 #include <string>
 #include <iterator>
+#include <climits>
 
 #include "particle_filter.h"
 
@@ -115,6 +116,24 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 
 }
 
+void ParticleFilter::dataAssociation(std::vector<LandmarkObs> &predictions, std:vector<LandmarkObs>& observations,std::vector<LandmarkObs> &transformed_landmark_list){
+          for(int i=0;i<observations.size();i++){
+          	   LandmarkObs &observedmark=observations[i];
+               int min_dist=INT_MAX;
+               int min_index=0;
+               for(int j=0;j<transformed_landmark_list;j++){
+               	   int temp=dist(observedmark.x,observedmark.y,transformed_landmark_list.x,transformed_landmark_list.y);
+               	   if(temp<min_dist){
+                        min_index=j;
+                        min_dist=temp;
+               	   }
+               }
+
+               predictions.push_back(transformed_landmark_list[min_index]);
+          }      
+
+}
+
 void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], 
 		std::vector<LandmarkObs> observations, Map map_landmarks) {
 	// TODO: Update the weights of each particle using a mult-variate Gaussian distribution. You can read
@@ -145,10 +164,28 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           	    temp.y=y;
           	    temp.id=j;
           	    transformed_landmark_list.push_back(temp);
+
+          
           }
 
           std::vector<LandmarkObs> predictions;
+          dataAssociation(predictions,observations,transformed_landmark_list);
           
+          double temp_weight=1;
+          for(int j=0;j<observations.size();j++){
+               double single_weight=1;
+               double denominator=sqrt(2*M_PI)*std_landmark[0]*std_landmark[1];
+
+               double delta_x=observations[j].x-predictions[j].x;
+               double delta_y=observations[j].y-predictions[j].y;
+               double numerator=exp(0.5*((delta_x*delta_x)/(std_landmark[0]*std_landmark[0])+delta_y*delta_y/(std_landmark[1]*std_landmark[1])));
+               
+               single_weight=numerator/denominator;
+               temp_weight*=single_weight;     
+          }
+
+          particles[i].weight=temp_weight;         
+
     }
     
     
