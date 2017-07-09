@@ -72,7 +72,7 @@ public:
 	 */
 	void dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations);
 
-	void dataAssociation(std::vector<LandmarkObs> &predictions, std:vector<LandmarkObs>& observations,std::vector<LandmarkObs> &transformed_landmark_list);
+	void dataAssociation(std::vector<LandmarkObs> &predictions, std::vector<LandmarkObs>& observations,std::vector<LandmarkObs> &transformed_landmark_list);
 	
 	/**
 	 * updateWeights Updates the weights for each particle based on the likelihood of the 

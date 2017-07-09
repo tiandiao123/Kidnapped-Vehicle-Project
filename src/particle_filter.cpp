@@ -68,17 +68,13 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
     double ro=std_pos[2];
 
     default_random_engine gen;
-
-    normal_distribution<double> dist_x(px_p, std_pos[0]*delta_t);
-	normal_distribution<double> dist_y(py_p, std_pos[1]*delta_t);
-	normal_distribution<double> dist_psi(yaw_p, std_pos[2]*delta_t);
     
     for(int i=0;i<num_particles;i++){
     	//Particle particle=particles[i];
     	
     	double p_x=particles[i].x;
     	double p_y=particles[i].y;
-    	double yaw=particle[i].theta;
+    	double yaw=particles[i].theta;
     	double px_p=0;
     	double py_p=0;
 
@@ -91,6 +87,10 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
         }
         
         double yaw_p=yaw+yaw_rate*delta_t;
+
+        normal_distribution<double> dist_x(px_p, std_pos[0]*delta_t);
+	    normal_distribution<double> dist_y(py_p, std_pos[1]*delta_t);
+	    normal_distribution<double> dist_psi(yaw_p, std_pos[2]*delta_t);
 
 	    double sample_x, sample_y, sample_psi;
 		sample_x = dist_x(gen);
@@ -118,13 +118,13 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 
 }
 
-void ParticleFilter::dataAssociation(std::vector<LandmarkObs> &predictions, std:vector<LandmarkObs>& observations,std::vector<LandmarkObs> &transformed_landmark_list){
+void ParticleFilter::dataAssociation(std::vector<LandmarkObs> &predictions, std::vector<LandmarkObs>& observations,std::vector<LandmarkObs> &transformed_landmark_list){
           for(int i=0;i<observations.size();i++){
           	   LandmarkObs &observedmark=observations[i];
                int min_dist=INT_MAX;
                int min_index=0;
-               for(int j=0;j<transformed_landmark_list;j++){
-               	   int temp=dist(observedmark.x,observedmark.y,transformed_landmark_list.x,transformed_landmark_list.y);
+               for(int j=0;j<transformed_landmark_list.size();j++){
+               	   int temp=dist(observedmark.x,observedmark.y,transformed_landmark_list[j].x,transformed_landmark_list[j].y);
                	   if(temp<min_dist){
                         min_index=j;
                         min_dist=temp;
@@ -159,8 +159,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           	    double cos_value=cos(-theta);
           	    double sin_value=sin(-theta);
 
-          	    double x=cos_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)-sin_value*(map_landmarks.landmark_list[j].y_f-particle[i].y);
-          	    double y=sin_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+cos_value*(map_landmarks.landmark_list[j].y_f-particle[i].y);
+          	    double x=cos_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)-sin_value*(map_landmarks.landmark_list[j].y_f-particles[i].y);
+          	    double y=sin_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+cos_value*(map_landmarks.landmark_list[j].y_f-particles[i].y);
 
           	    temp.x=x;
           	    temp.y=y;
@@ -210,7 +210,7 @@ void ParticleFilter::resample() {
     std :: default_random_engine  engine ( seed_gen () );
 
     std::uniform_real_distribution<double> distribution(0, max2_weight);
-    Std::uniform_int_distribution<int>  dist(0,particles.size());
+    std::uniform_int_distribution<int>  dist(0,particles.size());
 
     int start=dist(engine);
     for(int i=0;i<particles.size();i++){
