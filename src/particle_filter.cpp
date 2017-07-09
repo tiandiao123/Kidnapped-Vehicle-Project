@@ -204,7 +204,7 @@ void ParticleFilter::resample() {
 
     int max2_weight=2*max_weight;
 
-    std::vector<LandmarkObs> resampled_particles;
+    std::vector<Particle> resampled_particles;
 
     std :: random_device  seed_gen ; 
     std :: default_random_engine  engine ( seed_gen () );
@@ -213,14 +213,15 @@ void ParticleFilter::resample() {
     std::uniform_int_distribution<int>  dist(0,particles.size());
 
     int start=dist(engine);
+
     for(int i=0;i<particles.size();i++){
-         double genvalue=distribution(engine)
+         double genvalue=distribution(engine);
          while(genvalue-weights[start]>0){
-         	gen-=weights[start];
+         	genvalue-=weights[start];
          	start=(start+1)%weights.size();
          }
 
-         LandmarkObs temp;
+         Particle temp;
          temp.x=particles[start].x;
          temp.y=particles[start].y;
          temp.theta=particles[start].theta;
