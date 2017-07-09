@@ -66,10 +66,15 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	double cosval=cos(std_pos[2]);
     double sinval=sin(std_pos[2]);
     double ro=std_pos[2];
+
+    default_random_engine gen;
+
+    normal_distribution<double> dist_x(px_p, std_pos[0]*delta_t);
+	normal_distribution<double> dist_y(py_p, std_pos[1]*delta_t);
+	normal_distribution<double> dist_psi(yaw_p, std_pos[2]*delta_t);
     
     for(int i=0;i<num_particles;i++){
     	//Particle particle=particles[i];
-    	default_random_engine gen;
     	
     	double p_x=particles[i].x;
     	double p_y=particles[i].y;
@@ -87,9 +92,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
         
         double yaw_p=yaw+yaw_rate*delta_t;
 
-        normal_distribution<double> dist_x(px_p, std_pos[0]);
-	    normal_distribution<double> dist_y(py_p, std_pos[1]);
-	    normal_distribution<double> dist_psi(yaw_p, std_pos[2]);
 	    double sample_x, sample_y, sample_psi;
 		sample_x = dist_x(gen);
 		sample_y = dist_y(gen);
