@@ -46,6 +46,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 		 temp.y=sample_y;
 		 temp.theta=sample_psi;
 		 temp.id=i;
+		 temp.weight=1;
 
 		 particles.push_back(temp);
 	}
@@ -76,18 +77,18 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
     	double py_p=0;
 
     	if (fabs(yaw_rate) > 0.001) {
-            px_p = p_x + v/yaw_rate * ( sin (yaw + yaw_rate*delta_t) - sin(yaw));
-            py_p = p_y + v/yaw_rate * ( cos(yaw) - cos(yaw+yaw_rate*delta_t) );
+            px_p = p_x + velocity/yaw_rate * ( sin (yaw + yaw_rate*delta_t) - sin(yaw));
+            py_p = p_y + velocity/yaw_rate * ( cos(yaw) - cos(yaw+yaw_rate*delta_t) );
         }else {
-            px_p = p_x + v*delta_t*cos(yaw);
-            py_p = p_y + v*delta_t*sin(yaw);
+            px_p = p_x + velocity*delta_t*cos(yaw);
+            py_p = p_y + velocity*delta_t*sin(yaw);
         }
         
         double yaw_p=yaw+yaw_rate*delta_t;
 
-        normal_distribution<double> dist_x(x, std_pos[0]);
-	    normal_distribution<double> dist_y(y, std_pos[1]);
-	    normal_distribution<double> dist_psi(theta, std_pos[2]);
+        normal_distribution<double> dist_x(px_p, std_pos[0]);
+	    normal_distribution<double> dist_y(py_p, std_pos[1]);
+	    normal_distribution<double> dist_psi(yaw_p, std_pos[2]);
 	    double sample_x, sample_y, sample_psi;
 		sample_x = dist_x(gen);
 		sample_y = dist_y(gen);
@@ -126,6 +127,31 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   and the following is a good resource for the actual equation to implement (look at equation 
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
+    
+
+    for(int i=0;i<particles.size();i++){
+          std::vector<LandmarkObs> transformed_landmark_list;
+          for(int j=0;j<map_landmarks.landmark_list.size();i++){
+          	    double theta=particles[i].theta;
+
+          	    LandmarkObs temp;
+          	    double cos_value=cos(-theta);
+          	    double sin_value=sin(-theta);
+
+          	    double x=cos_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+sin_value*(map_landmarks.landmark_list[j].y_f-particle[i].y);
+          	    double y=-sin_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+cos_value*(map_landmarks.landmark_list[j].y_f-particle[i].y);
+
+          	    temp.x=x;
+          	    temp.y=y;
+          	    temp.id=j;
+          	    transformed_landmark_list.push_back(temp);
+          }
+
+          std::vector<LandmarkObs> predictions;
+          
+    }
+    
+    
 }
 
 void ParticleFilter::resample() {
