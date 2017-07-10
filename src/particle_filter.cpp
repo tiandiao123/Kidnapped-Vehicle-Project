@@ -161,11 +161,17 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           	    double theta=particles[i].theta;
 
           	    LandmarkObs temp;
-          	    double cos_value=cos(-theta);
-          	    double sin_value=sin(-theta);
+          	    // double cos_value=cos(-theta);
+          	    // double sin_value=sin(-theta);
 
-          	    double x=cos_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)-sin_value*(map_landmarks.landmark_list[j].y_f-particles[i].y);
-          	    double y=sin_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+cos_value*(map_landmarks.landmark_list[j].y_f-particles[i].y);
+          	    // double x=cos_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)-sin_value*(map_landmarks.landmark_list[j].y_f-particles[i].y);
+          	    // double y=sin_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+cos_value*(map_landmarks.landmark_list[j].y_f-particles[i].y);
+                
+                double cos_value=cos(theta-M_PI/2);
+                double sin_value=cos(theta-M_PI/2);
+                double x=-(map_landmarks.landmark_list[j].x_f - particles[i].x) * sin_value + (map_landmarks.landmark_list[j].y_f - particles[i].y) * cos_value;
+                double y=-(map_landmarks.landmark_list[j].x_f - particles[i].x) * cos_value - (map_landmarks.landmark_list[j].y_f - particles[i].y) * sin_value;
+
 
           	    temp.x=x;
           	    temp.y=y;
