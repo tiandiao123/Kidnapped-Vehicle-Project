@@ -78,7 +78,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
     	double px_p=0;
     	double py_p=0;
 
-    	if (fabs(yaw_rate) > 0.001) {
+    	if (fabs(yaw_rate) > 0.0001) {
             px_p = p_x + velocity/yaw_rate * ( sin (yaw + yaw_rate*delta_t) - sin(yaw));
             py_p = p_y + velocity/yaw_rate * ( cos(yaw) - cos(yaw+yaw_rate*delta_t) );
         }else {
@@ -168,7 +168,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           	    // double y=sin_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+cos_value*(map_landmarks.landmark_list[j].y_f-particles[i].y);
                 
                 double cos_value=cos(theta-M_PI/2);
-                double sin_value=cos(theta-M_PI/2);
+                double sin_value=sin(theta-M_PI/2);
                 double x=-(map_landmarks.landmark_list[j].x_f - particles[i].x) * sin_value + (map_landmarks.landmark_list[j].y_f - particles[i].y) * cos_value;
                 double y=-(map_landmarks.landmark_list[j].x_f - particles[i].x) * cos_value - (map_landmarks.landmark_list[j].y_f - particles[i].y) * sin_value;
 
@@ -188,10 +188,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           for(int j=0;j<observations.size();j++){
                double single_weight=1;
                double denominator=sqrt(2*M_PI)*std_landmark[0]*std_landmark[1];
+               //double denominator=2*M_PI*std_landmark[0]*std_landmark[1];
 
                double delta_x=observations[j].x-predictions[j].x;
                double delta_y=observations[j].y-predictions[j].y;
-               double numerator=exp(0.5*((delta_x*delta_x)/(std_landmark[0]*std_landmark[0])+delta_y*delta_y/(std_landmark[1]*std_landmark[1])));
+               double para=pow(delta_x,2)/pow(std_landmark[0],2)+pow(delta_y,2)/pow(std_landmark[1],2);
+               double numerator=exp(-0.5*para);
                
                single_weight=numerator/denominator;
                temp_weight*=single_weight;     
@@ -224,12 +226,14 @@ void ParticleFilter::resample() {
     std::uniform_int_distribution<int>  dist(0,particles.size());
 
     int start=dist(engine);
+    
+    double genvalue=0;
 
     for(int i=0;i<particles.size();i++){
-         double genvalue=distribution(engine);
+         genvalue+=distribution(engine);
          while(genvalue-weights[start]>0){
          	genvalue-=weights[start];
-         	start=(start+1)%weights.size();
+         	start=(start+1)%num_particles;
          }
 
          Particle temp;
