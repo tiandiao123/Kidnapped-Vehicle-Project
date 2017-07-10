@@ -157,8 +157,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           	    double cos_value=cos(-theta);
           	    double sin_value=sin(-theta);
 
-          	    double x=cos_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+sin_value*(map_landmarks.landmark_list[j].y_f-particle[i].y);
-          	    double y=-sin_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+cos_value*(map_landmarks.landmark_list[j].y_f-particle[i].y);
+          	    double x=cos_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)-sin_value*(map_landmarks.landmark_list[j].y_f-particle[i].y);
+          	    double y=sin_value*(map_landmarks.landmark_list[j].x_f-particles[i].x)+cos_value*(map_landmarks.landmark_list[j].y_f-particle[i].y);
 
           	    temp.x=x;
           	    temp.y=y;
@@ -185,7 +185,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           }
 
           particles[i].weight=temp_weight;         
-
+          weights[i]=temp_weight;
     }
     
     
@@ -195,6 +195,40 @@ void ParticleFilter::resample() {
 	// TODO: Resample particles with replacement with probability proportional to their weight. 
 	// NOTE: You may find std::discrete_distribution helpful here.
 	//   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
+    double max_weight=0;
+    for(int i=0;i<particles.size();i++){
+          max_weight=max(max_weight,weights[i]);
+    }
+
+    int max2_weight=2*max_weight;
+
+    std::vector<LandmarkObs> resampled_particles;
+
+    std :: random_device  seed_gen ; 
+    std :: default_random_engine  engine ( seed_gen () );
+
+    std::uniform_real_distribution<double> distribution(0, max2_weight);
+    Std::uniform_int_distribution<int>  dist(0,particles.size());
+
+    int start=dist(engine);
+    for(int i=0;i<particles.size();i++){
+         double genvalue=distribution(engine)
+         while(genvalue-weights[start]>0){
+         	gen-=weights[start];
+         	start=(start+1)%weights.size();
+         }
+
+         LandmarkObs temp;
+         temp.x=particles[start].x;
+         temp.y=particles[start].y;
+         temp.theta=particles[start].theta;
+
+         temp.id=i;
+         resampled_particles.push_back(temp);
+    }
+
+    particles=resampled_particles;
+
 
 }
 
