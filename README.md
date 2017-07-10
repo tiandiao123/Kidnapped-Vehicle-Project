@@ -2,6 +2,10 @@ Project Member: Cuiqing Li
 
 Time: July 2017
 
+### Project's Final Result Review:
+
+![gif](result2.gif)
+
 ### Project Introduction
 The basic idea of this project is that we need to implement particle filter so that we can identify cars' exact locations based on Lidar/Radar measurements and GPS information.
 
