@@ -224,6 +224,7 @@ void ParticleFilter::resample() {
          temp.theta=particles[start].theta;
 
          temp.id=i;
+         temp.weight=particles[start].weight;
          resampled_particles.push_back(temp);
     }
 
