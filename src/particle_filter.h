@@ -25,7 +25,7 @@ class ParticleFilter {
 	
 	
 	// Flag, if filter is initialized
-	bool is_initialized;
+	bool is_initialized=false;
 	
 	// Vector of weights of all particles
 	std::vector<double> weights;
@@ -72,7 +72,7 @@ public:
 	 */
 	void dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations);
 
-	void dataAssociation(std::vector<LandmarkObs> &predictions, std::vector<LandmarkObs>& observations,std::vector<LandmarkObs> &transformed_landmark_list);
+	void dataLink(std::vector<LandmarkObs> &predictions, std::vector<LandmarkObs>& observations,std::vector<LandmarkObs> &transformed_landmark_list);
 	
 	/**
 	 * updateWeights Updates the weights for each particle based on the likelihood of the 
