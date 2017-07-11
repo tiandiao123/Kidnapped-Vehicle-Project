@@ -13,7 +13,7 @@ My robot has been kidnapped and transported to a new location! Luckily it has a 
 
 In this project I will implement a 2 dimensional particle filter in C++. My particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step my filter will also get observation and control data. 
 
-### The Algorithms for Filter Particle
+### The Algorithms for Particle Filter
 Here is the algorithm for patticle filter in this project:
 
 ![png](particle-filter-alg.png)
